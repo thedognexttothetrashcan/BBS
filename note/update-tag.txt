@@ -1,0 +1,19 @@
+
+
+登鹳雀楼
+
+
+exist_tags    唐诗
+
+
+updated_tags  唐诗  王之涣
+
+
+
+
+exist_tags = {'Python', 'Nginx', 'Web', 'Django', 'Flask'}
+
+updated_tags = {'Django', 'Flask', 'Deploy'}
+
+
+exist_tags - updated_tags

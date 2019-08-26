@@ -1,0 +1,9 @@
+String
+
+Hash
+
+List    结果
+
+Set     去重
+
+Sorted Set  去重后的任务队列

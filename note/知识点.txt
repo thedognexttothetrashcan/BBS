@@ -1,0 +1,24 @@
+进程
+    次进程
+
+GIL 全局解释器锁
+
+多核心-多线程
+
+协程
+
+
+RESTful
+    POST   URL
+    GET    URL
+    PUT    URL
+    DELETE URL
+
+http://xxxxx.com:6379/foo/bar/xxx/xxxx.html?a=123&b=234#top
+
+
+前后端分离
+
+
+
+Django REST framework

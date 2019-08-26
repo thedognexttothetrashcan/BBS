@@ -1,0 +1,8 @@
+
+
+正向代理: user -> proxy -> site
+    - 加密代理
+    - 透明代理
+                       <-> Django / Flask
+反向代理: user -> nginx <-> Django / Flask
+                       <-> Django / Flask

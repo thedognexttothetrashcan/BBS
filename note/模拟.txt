@@ -1,0 +1,14 @@
+blueprint 蓝图
+app
+
+查找占用着 8000 端口的进程 ID
+
+netstat -natp|grep 8000
+lsof -i:8000
+
+
+异步任务
+    celery
+    twisted
+
+    tornado

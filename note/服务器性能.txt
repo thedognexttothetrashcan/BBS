@@ -1,0 +1,65 @@
+压力测试
+
+ab -n 1000 -c 100 http://127.0.0.1:8000/
+
+
+Gunicorn 进程模型
+    master      -> 管理其他子进程
+     |- worker  -> 接收、处理用户请求
+     |- worker  -> 接收、处理用户请求
+     |- worker  -> 接收、处理用户请求
+     |- worker  -> 接收、处理用户请求
+
+
+WSGI: Web Server Gateway Interface
+
+  用户请求
+    |
+    V
+HTTP Server : 建立连接，接收请求数据
+    |
+    V
+  WSGI : 将请求封装成 Request
+    |
+    V
+ WebApplication
+    |
+    V
+Response
+    |
+    V
+  WSGI : 将 Response 封装成 “响应报文”
+    |
+    V
+HTTP Server : 返回数据, 断开连接
+    |
+    V
+   用户
+
+
+HTTP Server: 网络处理
+WSGI Server: 数据转换
+Web App Server: 功能逻辑
+
+
+CDN
+
+北京    源站
+
+上海    镜像站
+
+深圳    镜像站
+
+成都    镜像站
+
+西安    镜像站
+
+
+美国    镜像站
+
+
+阿里云
+七牛云
+亚马逊 S3
+
+蓝汛 China Cache

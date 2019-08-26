@@ -1,0 +1,83 @@
+分布式
+
+单台数据库能力上限：800W
+提前优化：500W
+
+
+1000 W 条数据
+
+数据分片: 分库 / 分表
+
+
+分表
+====
+
+user 表 1000W
+
+水平拆分
+user_1     1 -  500W   <- uid: 3120482
+user_2  500W - 1000W
+user_3 1000W - 1500W   <- post_id: 20278327
+user_4 1500W - 2000W
+
+                            垂直拆分
+                               |
+user                           | ext_info
+                               |
+id  name  sex  age  location   | uid aa  bb  cc  dd  ee  ff  xx  yy  zz
+------------------------------ | ------------------------------------------- ext_info_1
+ 1   xxx   f    11   beijing   |   1  x   x   x   x   x   x   x   x   x
+ 2   xxx   f    11   beijing   |   2  x   x   x   x   x   x   x   x   x
+ 3   xxx   f    11   beijing   |   3  x   x   x   x   x   x   x   x   x
+------------------------------ |  ------------------------------------------ ext_info_2
+ 4   xxx   f    11   beijing   |   4  x   x   x   x   x   x   x   x   x
+ 5   xxx   f    11   beijing   |   5  x   x   x   x   x   x   x   x   x
+ 6   xxx   f    11   beijing   |   6  x   x   x   x   x   x   x   x   x
+------------------------------ |  ------------------------------------------ ext_info_3
+ 7   xxx   f    11   beijing   |   7  x   x   x   x   x   x   x   x   x
+ 8   xxx   f    11   beijing   |   8  x   x   x   x   x   x   x   x   x
+ 9   xxx   f    11   beijing   |   9  x   x   x   x   x   x   x   x   x
+
+
+
+分库
+====
+
+    按范围拆分
+        优点: 构建简单，扩容极其方便。
+        缺点: 不能随运营发展均衡分配资源
+
+    Database-1       1 -  500W   <- uid: 3120482
+    Database-2    500W - 1000W
+    Database-3   1000W - 1500W   <- post_id: 20278327
+    Database-4   1500W - 2000W
+
+
+    按余数拆分
+        优点: 能够随着运营发展均匀分配负载
+        缺点: 扩容不方便, 前期投入大
+
+    3120483 % len(Databases) -> db-3
+
+    Database-0      10  20  30   ...  3120480
+    Database-1   1  11  21  31   ...  3120481
+    Database-2   2  12  22  32   ...  3120482
+    Database-3   3  13  23  33   ...  3120483
+    Database-4   4  14  24  34   ...  3120484
+    Database-5   5  15  25  35   ...  3120485
+    Database-6   6  16  26  36   ...  3120486
+    Database-7   7  17  27  37   ...  3120487
+    Database-8   8  18  28  38   ...  3120488
+    Database-9   9  19  29  39   ...  3120489
+        |
+        |- master   <- 写入   读写分离
+        |   | 数据同步
+        |   V
+        |- slave 1  -> 读取
+        |- slave 2  -> 读取
+        |- slave 3  -> 读取
+
+    当主机挂掉后会发起投票, 提升一台从机作为主机
+
+
+服务高可用
